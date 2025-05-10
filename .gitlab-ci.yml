@@ -1,0 +1,15 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Building Docker image"
+    - docker build -t my-devops-app .
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Running docker-compose"
+    - docker-compose up -d
