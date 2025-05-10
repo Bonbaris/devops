@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/your-image-name .
+          docker build -t ghcr.io/${{ github.repository_owner }}/my-repository-image .
 
       - name: Login to GitHub Container Registry
         run: |
@@ -26,4 +26,4 @@ jobs:
 
       - name: Push Docker image to GitHub Container Registry
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/your-image-name
+          docker push ghcr.io/${{ github.repository_owner }}/my-repository-image
