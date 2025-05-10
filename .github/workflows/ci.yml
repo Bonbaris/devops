@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Docker CI/CD
 
 on:
   push:
@@ -6,27 +6,29 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker image
-        run: |
-          docker build -t your-image-name .
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: false
+        tags: local/dev:latest
 
-      - name: Run Docker container
-        run: |
-          docker run -d --name your-container-name your-image-name
+    - name: Compose Up
+      run: docker compose up -d --build
 
-      - name: Login to Docker Hub
-        run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker push your-image-name
+
+
+    - name: 🐳 Установка Docker и docker-compose
+      run: curl -fsSL https://get.docker.com -o get-docker.shsh get-docker.sh
+        sudo apt-get install docker-compose-plugin -y
